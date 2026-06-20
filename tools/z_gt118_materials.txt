@@ -1,0 +1,85 @@
+Materials with element Z > 118 (GTCEu + GTLCore + GTLAdditions)
+
+       Z |        N | Material ID                                | 中文名                      | Mod          | Processable | Qualifies
+----------------------------------------------------------------------------------------------------------------------------------
+     119 |      178 | tritanium                                  | 三钛                       | GTCEu        | YES         | YES
+     120 |      180 | duranium                                   | 铿铀                       | GTCEu        | YES         | YES
+     120 |      150 | heavy_quark_degenerate_matter              | 重夸克简并物质                  | GTLCore      | YES         | YES
+     125 |      198 | trinium                                    | 凯金                       | GTCEu        | YES         | YES
+     160 |      200 | quantumchromodynamically_confined_matter   | 量子色动力学封闭物质               | GTLCore      | YES         | YES
+     174 |      354 | enriched_naquadah                          | 富集硅岩                     | GTCEu        | YES         | YES
+     174 |      352 | naquadah                                   | 硅岩                       | GTCEu        | YES         | YES
+     174 |      348 | naquadria                                  | 超能硅岩                     | GTCEu        | YES         | YES
+     200 |        0 | attuned_tengam                             | 谐镃                       | GTLCore      | YES         | YES
+     200 |        0 | purified_tengam                            | 纯镃                       | GTLCore      | YES         | YES
+     320 |      320 | orichalcum                                 | 山铜                       | GTLCore      | YES         | YES
+     330 |      330 | mithril                                    | 秘银                       | GTLCore      | YES         | YES
+     350 |      350 | enderium                                   | 末影                       | GTLCore      | YES         | YES
+     380 |      380 | adamantium                                 | 艾德曼合金                    | GTLCore      | YES         | YES
+     440 |      440 | taranium                                   | 塔兰                       | GTLCore      | YES         | YES
+     480 |      480 | uruium                                     | 乌鲁                       | GTLCore      | YES         | YES
+     530 |      530 | starmetal                                  | 星辉                       | GTLCore      | YES         | YES
+     550 |      550 | vibranium                                  | 振金                       | GTLCore      | YES         | YES
+     570 |      570 | echoite                                    | 回响合金                     | GTLCore      | YES         | YES
+     600 |      600 | adamantine                                 | 精金                       | GTLCore      | YES         | YES
+     600 |      600 | infuscolium                                | 魔金                       | GTLCore      | YES         | YES
+     640 |      640 | legendarium                                | 传奇合金                     | GTLCore      | YES         | YES
+     800 |      800 | quantanium                                 | 量子                       | GTLCore      | YES         | YES
+    1000 |     1000 | creon                                      | 创律合金                     | GTLAdditions | YES         | YES
+    5000 |     5000 | shirabon                                   | 调律源金                     | GTLCore      | YES         | YES
+    8000 |     8000 | draconium                                  | 龙                        | GTLCore      | YES         | YES
+   10000 |    10000 | black_dwarf_mtter                          | 黑矮星物质                    | GTLCore      | YES         | YES
+   10000 |    10000 | cosmic_mesh                                | 寰宇织网                     | GTLCore      | YES         | YES
+   10000 |        0 | crystalmatrix                              | 水晶矩阵                     | GTLCore      | YES         | YES
+   10000 |    10000 | magnetohydrodynamicallyconstrainedstarmatter | 磁流体约束恒星物质                | GTLCore      | YES         | YES
+   10000 |    10000 | raw_star_matter                            | 原始恒星混合物                  | GTLCore      | YES         | YES
+   10000 |    10000 | white_dwarf_mtter                          | 白矮星物质                    | GTLCore      | YES         | YES
+   16000 |    16000 | draconiumawakened                          | 觉醒龙                      | GTLCore      | YES         | YES
+   20000 |    20000 | chaos                                      | 混沌物质                     | GTLCore      | YES         | YES
+  100000 |   100000 | hypogen                                    | 海珀珍                      | GTLCore      | YES         | YES
+  100000 |   100000 | infinity                                   | 无尽                       | GTLCore      | YES         | YES
+  100000 |   100000 | rhugnor                                    | 鲁格诺                      | GTLCore      | YES         | YES
+ 1000000 |  1000000 | eternity                                   | 永恒                       | GTLCore      | YES         | YES
+
+Total Z>118 materials: 38
+Qualifying for LeisureNucleonRecipes coupling filter: 38
+
+Qualifying materials:
+  - tritanium | 三钛 (Z=119, mod=GTCEu)
+  - duranium | 铿铀 (Z=120, mod=GTCEu)
+  - heavy_quark_degenerate_matter | 重夸克简并物质 (Z=120, mod=GTLCore)
+  - trinium | 凯金 (Z=125, mod=GTCEu)
+  - quantumchromodynamically_confined_matter | 量子色动力学封闭物质 (Z=160, mod=GTLCore)
+  - enriched_naquadah | 富集硅岩 (Z=174, mod=GTCEu)
+  - naquadah | 硅岩 (Z=174, mod=GTCEu)
+  - naquadria | 超能硅岩 (Z=174, mod=GTCEu)
+  - attuned_tengam | 谐镃 (Z=200, mod=GTLCore)
+  - purified_tengam | 纯镃 (Z=200, mod=GTLCore)
+  - orichalcum | 山铜 (Z=320, mod=GTLCore)
+  - mithril | 秘银 (Z=330, mod=GTLCore)
+  - enderium | 末影 (Z=350, mod=GTLCore)
+  - adamantium | 艾德曼合金 (Z=380, mod=GTLCore)
+  - taranium | 塔兰 (Z=440, mod=GTLCore)
+  - uruium | 乌鲁 (Z=480, mod=GTLCore)
+  - starmetal | 星辉 (Z=530, mod=GTLCore)
+  - vibranium | 振金 (Z=550, mod=GTLCore)
+  - echoite | 回响合金 (Z=570, mod=GTLCore)
+  - adamantine | 精金 (Z=600, mod=GTLCore)
+  - infuscolium | 魔金 (Z=600, mod=GTLCore)
+  - legendarium | 传奇合金 (Z=640, mod=GTLCore)
+  - quantanium | 量子 (Z=800, mod=GTLCore)
+  - creon | 创律合金 (Z=1000, mod=GTLAdditions)
+  - shirabon | 调律源金 (Z=5000, mod=GTLCore)
+  - draconium | 龙 (Z=8000, mod=GTLCore)
+  - black_dwarf_mtter | 黑矮星物质 (Z=10000, mod=GTLCore)
+  - cosmic_mesh | 寰宇织网 (Z=10000, mod=GTLCore)
+  - crystalmatrix | 水晶矩阵 (Z=10000, mod=GTLCore)
+  - magnetohydrodynamicallyconstrainedstarmatter | 磁流体约束恒星物质 (Z=10000, mod=GTLCore)
+  - raw_star_matter | 原始恒星混合物 (Z=10000, mod=GTLCore)
+  - white_dwarf_mtter | 白矮星物质 (Z=10000, mod=GTLCore)
+  - draconiumawakened | 觉醒龙 (Z=16000, mod=GTLCore)
+  - chaos | 混沌物质 (Z=20000, mod=GTLCore)
+  - hypogen | 海珀珍 (Z=100000, mod=GTLCore)
+  - infinity | 无尽 (Z=100000, mod=GTLCore)
+  - rhugnor | 鲁格诺 (Z=100000, mod=GTLCore)
+  - eternity | 永恒 (Z=1000000, mod=GTLCore)

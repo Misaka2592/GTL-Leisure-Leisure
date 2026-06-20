@@ -1,0 +1,249 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'com.diffplug.spotless' version '6.25.0'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args "-mixin.config=${mod_id}.mixin.json"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        client {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            jvmArgs '-Xmx8G'
+        }
+
+        server {
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    mavenLocal()
+    flatDir { dir 'libs' }
+    mavenCentral()
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = 'https://maven.parchmentmc.org' }
+    maven {
+        url = 'https://maven.tterrag.com/'
+        content { includeGroup 'com.tterrag.registrate' }
+    }
+    maven {
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+    }
+    maven {
+        url = 'https://maven.architectury.dev/'
+    }
+    maven {
+        url = 'https://api.repsy.io/mvn/toma/public/'
+    }
+    maven {
+        name = 'IzzelAliz Maven'
+        url = 'https://maven.izzel.io/releases/'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf('local:gtceu:1.20.1-1.4.4')
+    implementation fg.deobf('local:gtlcore:1.2.2.8-fix2')
+    implementation fg.deobf('local:gtladditions:2.6.5Custom')
+    implementation fg.deobf('local:gtmthings:1.3.5.fix')
+    implementation fg.deobf('local:kubejs-forge:2001.6.5-build.16')
+    implementation fg.deobf('local:rhino-forge:2001.2.3-build.10')
+    implementation fg.deobf('local:ldlib-forge:1.20.1-1.0.33.b')
+    compileOnly 'com.tterrag.registrate:Registrate:MC1.20-1.3.3'
+    implementation fg.deobf('local:architectury:9.2.14-forge')
+    implementation 'thedarkcolour:kotlinforforge:4.11.0'
+
+    runtimeOnly fg.deobf('local:ExtendedAE:1.20-1.4.12-forge')
+    runtimeOnly fg.deobf('local:Re-Avaritia:forged-1.20.1-1.3.8.3')
+    runtimeOnly fg.deobf('local:jei-1.20.1:forge-15.20.0.129')
+    runtimeOnly fg.deobf('local:Jade:1.20.1-Forge-11.13.2')
+    runtimeOnly fg.deobf('local:jecharacters:1.20.1-forge-4.6.3')
+    runtimeOnly fg.deobf('local:appliedenergistics2-forge:15.4.10')
+    runtimeOnly fg.deobf('local:embeddium:0.3.31+mc1.20.1')
+    runtimeOnly fg.deobf('local:rubidium-extra:0.5.4.4+mc1.20.1-build.131')
+    compileOnly fg.deobf('local:guideme:20.1.15')
+    runtimeOnly fg.deobf('local:guideme:20.1.15')
+    runtimeOnly fg.deobf('local:Glodium:1.20-1.5-forge')
+    runtimeOnly fg.deobf('local:botarium-forge:1.20.1-2.3.4')
+    runtimeOnly fg.deobf('local:resourcefulconfig-forge:1.20.1-2.1.3')
+    runtimeOnly fg.deobf('local:resourcefullib-forge:1.20.1-2.1.29')
+    runtimeOnly fg.deobf('local:StargateJourney:1.20.1-0.6.44')
+    runtimeOnly fg.deobf('local:ad_astra-forge:1.20.1-1.15.20')
+    runtimeOnly fg.deobf('local:ad_astra_rocketed-forge:1.20.1-1.0.5')
+    runtimeOnly fg.deobf('local:ftb-ultimine-forge:2001.1.7')
+    runtimeOnly fg.deobf('local:ftb-library-forge:2001.2.12')
+    runtimeOnly fg.deobf('local:ftb-chunks:forge-2001.3.6')
+    runtimeOnly fg.deobf('local:ftb-teams:forge-2001.3.2')
+    runtimeOnly fg.deobf('local:worldedit-mod:7.2.15')
+    // Use the universal (fat) ModernUI jar; Maven split artifacts need extra bootstrap classpath in ForgeGradle.
+    runtimeOnly fg.deobf('local:ModernUI-Forge:1.20.1-3.12.0.1-universal')
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    def replaceProperties = [
+            minecraft_version: minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version,
+            forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_license: mod_license,
+            mod_version: mod_version,
+            mod_authors: mod_authors,
+            mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+                'Specification-Title': mod_id,
+                'Specification-Vendor': mod_authors,
+                'Specification-Version': '1',
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor': mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'MixinConfigs': "${mod_id}.mixin.json"
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
+
+tasks.register('deployMod', Copy) {
+    dependsOn 'build'
+    from layout.buildDirectory.file("libs/${mod_id}-${mod_version}.jar")
+    into layout.projectDirectory.dir('deploy')
+    doLast {
+        logger.lifecycle("Deployed to ${destinationDir}")
+    }
+}
+
+def localGradleProperties = file('gradle.properties.local')
+if (localGradleProperties.exists()) {
+    localGradleProperties.withInputStream { stream ->
+        new Properties().tap { load(stream) }.each { key, value ->
+            if (!project.hasProperty(key.toString())) {
+                ext[key.toString()] = value.toString()
+            }
+        }
+    }
+}
+
+def kubeJsAssetsDir = project.findProperty('kubejs_assets_dir') ?: System.getenv('KUBEJS_ASSETS_DIR')
+
+tasks.register('syncKubeJsAssets', Sync) {
+    group = 'lleisure'
+    description = 'Sync external KubeJS assets into run/kubejs (optional). ' +
+            'Set kubejs_assets_dir in gradle.properties.local or KUBEJS_ASSETS_DIR.'
+
+    onlyIf {
+        if (kubeJsAssetsDir == null) {
+            logger.lifecycle('Skipping KubeJS sync: set kubejs_assets_dir or KUBEJS_ASSETS_DIR')
+            return false
+        }
+        def source = file(kubeJsAssetsDir)
+        if (!source.isDirectory()) {
+            logger.warn("Skipping KubeJS sync: ${source} is not a directory")
+            return false
+        }
+        return true
+    }
+
+    from { file(kubeJsAssetsDir) }
+    into layout.projectDirectory.dir('run/kubejs')
+
+    doFirst {
+        logger.lifecycle("Syncing KubeJS assets from ${file(kubeJsAssetsDir)} -> ${project.file('run/kubejs')}")
+    }
+}
+
+['prepareRunClient', 'prepareRunServer', 'prepareRunData'].each { taskName ->
+    tasks.matching { it.name == taskName }.configureEach {
+        dependsOn 'syncKubeJsAssets'
+    }
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            artifact jar
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+spotless {
+    encoding 'UTF-8'
+
+    java {
+        target 'src/main/java/**/*.java', 'src/test/java/**/*.java'
+
+        def orderFile = file("$rootDir/spotless/spotless.importorder")
+        def formatFile = file("$rootDir/spotless/spotless.eclipseformat.xml")
+
+        toggleOffOn()
+        importOrderFile(orderFile)
+        removeUnusedImports('cleanthat-javaparser-unnecessaryimport')
+        eclipse('4.31').configFile(formatFile)
+        replaceRegex 'removeFinalNewline', /[\r\n]+\z/, ''
+    }
+
+    json {
+        target 'src/main/resources/**/*.json'
+        gson().indentWithSpaces(2)
+    }
+}

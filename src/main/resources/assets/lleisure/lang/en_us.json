@@ -1,0 +1,23 @@
+{
+  "item.lleisure.example_component": "Example Component",
+  "item.lleisure.example_catalyst": "Example Catalyst",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_i": "Nucleon Aggregation Catalyst MK I",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_ii": "Nucleon Aggregation Catalyst MK II",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_iii": "Nucleon Aggregation Catalyst MK III",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_iv": "Nucleon Aggregation Catalyst MK IV",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_v": "Nucleon Aggregation Catalyst MK V",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_vi": "Nucleon Aggregation Catalyst MK VI",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_vii": "Nucleon Aggregation Catalyst MK VII",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_viii": "Nucleon Aggregation Catalyst MK VIII",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_ix": "Nucleon Aggregation Catalyst MK IX",
+  "item.lleisure.nucleon_aggregation_catalyst_prototype": "Nucleon Aggregation Catalyst Prototype",
+  "block.lleisure.quantum_nucleon_stabilizer_synthesizer": "Quantum Nucleon Stabilizer-Synthesizer",
+  "machine.lleisure.quantum_nucleon_stabilizer_synthesizer.tooltip": "Nine-tiered suspended arbiter, rending and reuniting nuclei, wielding strong-force decree",
+  "gtceu.nucleon_decoupling_protocol": "Nucleon Decoupling Protocol",
+  "gtceu.nucleon_coupling_protocol": "Nucleon Coupling Protocol",
+  "material.lleisure.proton": "Proton",
+  "material.lleisure.neutron": "Neutron",
+  "itemGroup.lleisure.main": "Leisure Leisure",
+  "tooltip.lleisure.added_by": "Added by Leisure Leisure",
+  "tooltip.lleisure.enhanced_runtime": "Leisure Leisure: machine is actively processing"
+}

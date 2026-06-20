@@ -1,0 +1,5 @@
+# Copy to gradle.properties.local and adjust paths for your machine.
+# gradle.properties.local is gitignored and overrides gradle.properties.
+
+# Relative to project root, or any path Gradle can resolve:
+# kubejs_assets_dir = your_dir/kubejs

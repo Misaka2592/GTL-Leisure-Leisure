@@ -1,0 +1,23 @@
+{
+  "item.lleisure.example_component": "示例组件",
+  "item.lleisure.example_catalyst": "示例催化剂",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_i": "玄牝·聚元媒 MK I型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_ii": "玄牝·聚元媒 MK II型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_iii": "玄牝·聚元媒 MK III型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_iv": "玄牝·聚元媒 MK IV型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_v": "玄牝·聚元媒 MK V型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_vi": "玄牝·聚元媒 MK VI型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_vii": "玄牝·聚元媒 MK VII型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_viii": "玄牝·聚元媒 MK VIII型",
+  "item.lleisure.nucleon_aggregation_catalyst_mk_ix": "玄牝·聚元媒 MK IX型",
+  "item.lleisure.nucleon_aggregation_catalyst_prototype": "玄牝·聚元媒 原型",
+  "block.lleisure.quantum_nucleon_stabilizer_synthesizer": "归墟·定元仪",
+  "machine.lleisure.quantum_nucleon_stabilizer_synthesizer.tooltip": "悬仪九重，可裂核为子，亦可聚子成核，执强核之仲裁",
+  "gtceu.nucleon_decoupling_protocol": "核子退耦规程",
+  "gtceu.nucleon_coupling_protocol": "核子耦联规程",
+  "material.lleisure.proton": "质子",
+  "material.lleisure.neutron": "中子",
+  "itemGroup.lleisure.main": "Leisure Leisure",
+  "tooltip.lleisure.added_by": "由 Leisure Leisure 添加",
+  "tooltip.lleisure.enhanced_runtime": "Leisure Leisure：机器正在运行"
+}

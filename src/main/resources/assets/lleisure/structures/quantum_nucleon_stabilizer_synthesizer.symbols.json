@@ -1,0 +1,10 @@
+{
+  "minecraft:air": " ",
+  "gtceu:black_metal_sheet": "A",
+  "gtceu:brown_metal_sheet": "B",
+  "gtceu:gray_metal_sheet": "C",
+  "gtceu:green_metal_sheet": "D",
+  "gtceu:light_gray_metal_sheet": "E",
+  "gtceu:stable_machine_casing": "F",
+  "lleisure:quantum_nucleon_stabilizer_synthesizer[facing=west,server_tick=false,upwards_facing=north]": "G"
+}

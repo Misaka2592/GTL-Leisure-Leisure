@@ -1,0 +1,67 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Forge / Minecraft dev runs
+run/
+run-data/
+crash-reports/
+logs/
+.mixin.out/
+
+# Build outputs
+deploy/
+mcmodsrepo/
+src/generated/
+
+# Local dependency jars (binary files are not committed)
+libs/*
+!libs/README.md
+
+# Datagen / compile artifacts
+out/
+bin/
+*.class
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+*.launch
+eclipse/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code / Cursor
+.vscode/*
+!.vscode/extensions.json
+.cursor/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and JVM crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+*.hprof
+
+# Forge MDK
+forge*changelog.txt
+
+# Structure authoring inputs (generated .bin is committed under assets/)
+scripts/schem_input/
+
+# Local overrides
+local.properties
+gradle.properties.local
+*.local
