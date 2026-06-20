@@ -29,8 +29,7 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.LASER_INPUT_HATCH_256
 public final class LeisureMultiBlockStructure {
 
     public static final String QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID = "quantum_nucleon_stabilizer_synthesizer";
-    public static final String QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_BIN =
-            "multiblock/" + QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID + ".bin";
+    public static final String QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_BIN = "multiblock/" + QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID + ".bin";
 
     private static final char STABILIZER_CASING_SYMBOL = 'F';
     private static final char STABILIZER_CONTROLLER_SYMBOL = 'G';
@@ -52,8 +51,7 @@ public final class LeisureMultiBlockStructure {
     };
 
     /** Live pattern only validates casing, controller, and air. Decorative sheets stay {@code any()}. */
-    private static final Set<Character> STABILIZER_PATTERN_SYMBOLS =
-            Set.of(' ', STABILIZER_CASING_SYMBOL, STABILIZER_CONTROLLER_SYMBOL);
+    private static final Set<Character> STABILIZER_PATTERN_SYMBOLS = Set.of(' ', STABILIZER_CASING_SYMBOL, STABILIZER_CONTROLLER_SYMBOL);
 
     private static final RelativeDirection[] STABILIZER_DIRECTIONS = {
             RelativeDirection.BACK,

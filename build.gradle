@@ -168,6 +168,88 @@ tasks.register('deployMod', Copy) {
     }
 }
 
+def releaseJarFile = layout.buildDirectory.file("libs/${mod_id}-${mod_version}.jar")
+
+def extractChangelogSection = { String version ->
+    def lines = file('CHANGELOG.md').readLines('UTF-8')
+    def header = "## [${version}]"
+    def start = lines.findIndexOf { it.startsWith(header) }
+    if (start < 0) {
+        throw new GradleException("CHANGELOG.md is missing a section starting with '${header}'")
+    }
+    def body = []
+    for (int i = start + 1; i < lines.size(); i++) {
+        if (lines[i].startsWith('## [')) {
+            break
+        }
+        body << lines[i]
+    }
+    def text = body.join('\n').trim()
+    if (text.isEmpty()) {
+        throw new GradleException("CHANGELOG.md section for ${version} is empty")
+    }
+    return text
+}
+
+tasks.register('releaseCheck') {
+    group = 'release'
+    description = 'Verify CHANGELOG.md contains a non-empty section for mod_version.'
+    doLast {
+        extractChangelogSection(mod_version)
+        logger.lifecycle("Release check passed for version ${mod_version}")
+    }
+}
+
+tasks.register('writeReleaseNotes') {
+    group = 'release'
+    description = 'Write build/release-notes.md from CHANGELOG.md for mod_version.'
+    dependsOn 'releaseCheck'
+    outputs.file layout.buildDirectory.file('release-notes.md')
+    doLast {
+        def notesFile = layout.buildDirectory.file('release-notes.md').get().asFile
+        notesFile.parentFile.mkdirs()
+        notesFile.setText(extractChangelogSection(mod_version) + System.lineSeparator(), 'UTF-8')
+        logger.lifecycle("Release notes written to ${notesFile}")
+    }
+}
+
+tasks.register('githubRelease') {
+    group = 'release'
+    description = 'Format, build and publish GitHub Release v<mod_version> via gh CLI (requires gh auth).'
+    dependsOn 'spotlessApply', 'writeReleaseNotes', 'build'
+    doLast {
+        def jar = releaseJarFile.get().asFile
+        if (!jar.isFile()) {
+            throw new GradleException("Release jar not found: ${jar}")
+        }
+        def tag = "v${mod_version}"
+        def notesFile = layout.buildDirectory.file('release-notes.md').get().asFile
+        logger.lifecycle("Creating GitHub release ${tag} with ${jar.name}")
+        exec {
+            commandLine 'gh', 'release', 'create', tag, jar.absolutePath,
+                    '--title', "${mod_name} ${mod_version}",
+                    '--notes-file', notesFile.absolutePath
+        }
+    }
+}
+
+tasks.register('packBuildLibs', Zip) {
+    group = 'release'
+    description = 'Pack libs/*.jar into build/release/libs.zip for the build-dependencies GitHub release.'
+    from(file('libs')) {
+        include '*.jar'
+    }
+    archiveFileName = 'libs.zip'
+    destinationDirectory = layout.buildDirectory.dir('release')
+    doLast {
+        logger.lifecycle("Packed CI libs to ${archiveFile.get()}")
+    }
+}
+
+tasks.named('build').configure {
+    mustRunAfter 'spotlessApply'
+}
+
 def localGradleProperties = file('gradle.properties.local')
 if (localGradleProperties.exists()) {
     localGradleProperties.withInputStream { stream ->

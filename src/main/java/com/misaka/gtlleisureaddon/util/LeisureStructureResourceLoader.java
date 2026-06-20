@@ -1,9 +1,9 @@
 package com.misaka.gtlleisureaddon.util;
 
+import com.misaka.gtlleisureaddon.GTLLeisureAddon;
+
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-
-import com.misaka.gtlleisureaddon.GTLLeisureAddon;
 
 import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;
 
@@ -13,7 +13,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,17 +34,17 @@ public final class LeisureStructureResourceLoader {
     public record RepeatableAisle(int aisleIndex, int min, int max) {}
 
     public static FactoryBlockPattern loadFactoryPattern(
-                                                          String resourcePath,
-                                                          String expectedId,
-                                                          RelativeDirection... directions) {
+                                                         String resourcePath,
+                                                         String expectedId,
+                                                         RelativeDirection... directions) {
         return loadFactoryPattern(resourcePath, expectedId, List.of(), directions);
     }
 
     public static FactoryBlockPattern loadFactoryPattern(
-                                                          String resourcePath,
-                                                          String expectedId,
-                                                          List<RepeatableAisle> repeatableAisles,
-                                                          RelativeDirection... directions) {
+                                                         String resourcePath,
+                                                         String expectedId,
+                                                         List<RepeatableAisle> repeatableAisles,
+                                                         RelativeDirection... directions) {
         FactoryBlockPattern pattern = switch (directions.length) {
             case 0 -> FactoryBlockPattern.start();
             case 3 -> FactoryBlockPattern.start(directions[0], directions[1], directions[2]);
@@ -71,9 +70,9 @@ public final class LeisureStructureResourceLoader {
     }
 
     public static String[][] loadShapeInfoSlices(
-                                                   String resourcePath,
-                                                   String expectedId,
-                                                   SliceSymbolMapper mapper) {
+                                                 String resourcePath,
+                                                 String expectedId,
+                                                 SliceSymbolMapper mapper) {
         String[][] aisles = loadAisles(resourcePath, expectedId);
         int rowCount = aisles[0].length;
         int planeCount = aisles[0][0].length();
@@ -107,15 +106,14 @@ public final class LeisureStructureResourceLoader {
     }
 
     private static String[][] readFactoryAisles(String resourcePath, String expectedId) {
-        return readResource(resourcePath, expectedId, KIND_FACTORY_PATTERN, (input, fullPath) ->
-                readStringGrid(input, fullPath, expectedId, "aisles"));
+        return readResource(resourcePath, expectedId, KIND_FACTORY_PATTERN, (input, fullPath) -> readStringGrid(input, fullPath, expectedId, "aisles"));
     }
 
     private static <T> T readResource(
-                                        String resourcePath,
-                                        String expectedId,
-                                        int expectedKind,
-                                        ResourceReader<T> reader) {
+                                      String resourcePath,
+                                      String expectedId,
+                                      int expectedKind,
+                                      ResourceReader<T> reader) {
         String fullPath = ROOT_PATH + "/" + resourcePath.trim().replace('\\', '/').replaceAll("^/+", "");
         InputStream stream = LeisureStructureResourceLoader.class.getClassLoader().getResourceAsStream(fullPath);
         if (stream == null) {
@@ -155,7 +153,7 @@ public final class LeisureStructureResourceLoader {
     }
 
     private static String[][] readStringGrid(DataInputStream input, String resourcePath, String expectedId, String fieldName)
-                                                                                                                             throws IOException {
+                                                                                                                              throws IOException {
         int aisleCount = readPositiveUnsignedShort(input, resourcePath, expectedId, fieldName + " aisle count");
         int rowCount = readPositiveUnsignedShort(input, resourcePath, expectedId, fieldName + " row count");
         int width = readPositiveUnsignedShort(input, resourcePath, expectedId, fieldName + " row width");
@@ -198,7 +196,7 @@ public final class LeisureStructureResourceLoader {
     }
 
     private static String readUtf8String(DataInputStream input, String resourcePath, String expectedId, String fieldName)
-                                                                                                                         throws IOException {
+                                                                                                                          throws IOException {
         int length = readPositiveUnsignedShort(input, resourcePath, expectedId, fieldName + " length");
         byte[] bytes = input.readNBytes(length);
         return new String(bytes, StandardCharsets.UTF_8);

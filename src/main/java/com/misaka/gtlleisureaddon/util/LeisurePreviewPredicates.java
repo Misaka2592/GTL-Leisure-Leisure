@@ -45,8 +45,8 @@ public final class LeisurePreviewPredicates {
     }
 
     public static Map<BlockPos, TraceabilityPredicate> buildClickPredicateMap(
-                                                                               MultiblockMachineDefinition definition,
-                                                                               Map<BlockPos, BlockInfo> blockMap) {
+                                                                              MultiblockMachineDefinition definition,
+                                                                              Map<BlockPos, BlockInfo> blockMap) {
         TraceabilityPredicate controller = controllerPredicate(definition);
         TraceabilityPredicate casing = casingPredicate(definition);
         Map<BlockPos, TraceabilityPredicate> predicates = new Object2ObjectOpenHashMap<>(blockMap.size());

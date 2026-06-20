@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version without v prefix (defaults to gradle.properties mod_version)'
+        required: false
+        type: string
+      ref:
+        description: 'Git ref to build'
+        required: false
+        default: master
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ -n "${{ inputs.version }}" ]]; then
+              VERSION="${{ inputs.version }}"
+            else
+              VERSION="$(grep '^mod_version=' gradle.properties | cut -d= -f2)"
+            fi
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          if [[ -z "$VERSION" ]]; then
+            echo "Could not resolve release version" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Restore cached dependency libs
+        uses: actions/cache/restore@v4
+        id: libs-cache
+        with:
+          path: libs
+          key: lleisure-libs-${{ hashFiles('libs/README.md') }}
+          restore-keys: |
+            lleisure-libs-
+
+      - name: Download build dependency libs
+        if: steps.libs-cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p libs
+          if [[ -f libs/gtceu-1.20.1-1.4.4.jar ]]; then
+            echo "Dependency libs already present"
+            exit 0
+          fi
+          echo "Trying to download libs.zip from the build-dependencies release..."
+          if gh release download build-dependencies --repo "${{ github.repository }}" --pattern 'libs.zip' --dir .; then
+            unzip -o libs.zip -d libs
+            rm -f libs.zip
+          else
+            cat <<'EOF' >&2
+          Missing libs/*.jar for CI build.
+          Create a GitHub release tagged build-dependencies and upload libs.zip containing all jars listed in libs/README.md,
+          or populate the Actions cache once from a successful local build.
+          EOF
+            exit 1
+          fi
+
+      - name: Verify dependency libs
+        shell: bash
+        run: |
+          test -f libs/gtceu-1.20.1-1.4.4.jar
+          test -f libs/gtlcore-1.2.2.8-fix2.jar
+          test -f libs/gtladditions-2.6.5Custom.jar
+
+      - name: Build mod jar
+        run: ./gradlew build --no-daemon --stacktrace
+
+      - name: Extract release notes
+        run: bash .github/scripts/extract-changelog.sh "${{ steps.version.outputs.version }}" release-notes.md
+
+      - name: Verify release artifact
+        shell: bash
+        run: |
+          JAR="build/libs/lleisure-${{ steps.version.outputs.version }}.jar"
+          test -f "$JAR"
+          echo "artifact=$JAR" >> "$GITHUB_ENV"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: Leisure Leisure ${{ steps.version.outputs.version }}
+          body_path: release-notes.md
+          files: ${{ env.artifact }}
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+          fail_on_unmatched_files: true
+
+      - name: Save dependency libs cache
+        if: steps.libs-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: libs
+          key: lleisure-libs-${{ hashFiles('libs/README.md') }}

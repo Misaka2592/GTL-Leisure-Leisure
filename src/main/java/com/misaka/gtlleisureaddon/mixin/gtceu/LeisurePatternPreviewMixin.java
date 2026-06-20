@@ -19,8 +19,8 @@ public abstract class LeisurePatternPreviewMixin {
 
     @Inject(method = "initializePattern", at = @At("RETURN"), remap = false)
     private void lleisure$patchPreviewPredicates(
-                                                  MultiblockShapeInfo shapeInfo,
-                                                  CallbackInfoReturnable<?> cir) {
+                                                 MultiblockShapeInfo shapeInfo,
+                                                 CallbackInfoReturnable<?> cir) {
         PatternPreviewWidgetAccessor widget = (PatternPreviewWidgetAccessor) (Object) this;
         if (!widget.getControllerDefinition().getId().getPath()
                 .equals(LeisureMultiBlockStructure.QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID)) {

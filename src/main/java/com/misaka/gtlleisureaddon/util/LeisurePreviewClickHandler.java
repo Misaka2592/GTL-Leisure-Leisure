@@ -30,15 +30,15 @@ public final class LeisurePreviewClickHandler {
     private LeisurePreviewClickHandler() {}
 
     public static SlotWidget[] handle(
-                                        PatternPreviewWidgetAccessor widget,
-                                        int pageIndex,
-                                        Object[] patternPages,
-                                        List<SimplePredicate> predicateBuffer,
-                                        SlotWidget[] existingCandidates,
-                                        SlotWidget[] partSlots,
-                                        Function<Widget, Widget> addWidget,
-                                        Consumer<Widget> removeWidget,
-                                        BlockPos pos) {
+                                      PatternPreviewWidgetAccessor widget,
+                                      int pageIndex,
+                                      Object[] patternPages,
+                                      List<SimplePredicate> predicateBuffer,
+                                      SlotWidget[] existingCandidates,
+                                      SlotWidget[] partSlots,
+                                      Function<Widget, Widget> addWidget,
+                                      Consumer<Widget> removeWidget,
+                                      BlockPos pos) {
         if (patternPages == null || pageIndex < 0 || pageIndex >= patternPages.length) {
             return null;
         }
