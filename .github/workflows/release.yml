@@ -101,6 +101,9 @@ jobs:
           test -f libs/gtlcore-1.2.2.8-fix2.jar
           test -f libs/gtladditions-2.6.5Custom.jar
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
       - name: Build mod jar
         run: ./gradlew build --no-daemon --stacktrace
 

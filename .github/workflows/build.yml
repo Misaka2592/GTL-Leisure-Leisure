@@ -48,5 +48,8 @@ jobs:
           unzip -o libs.zip -d libs
           rm -f libs.zip
 
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
       - name: Build
         run: ./gradlew build --no-daemon --stacktrace
