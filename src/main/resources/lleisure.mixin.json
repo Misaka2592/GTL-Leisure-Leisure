@@ -4,12 +4,11 @@
   "package": "com.misaka.gtlleisureaddon.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "gtceu.WorkableElectricMultiblockMachineMixin"
+    "gtceu.WorkableElectricMultiblockMachineMixin",
+    "gtceu.LeisureRecipeLookupMixin",
+    "gtlcore.DysonSphereMachineMixin"
   ],
   "client": [
-    "guideme.GuideReloadListenerMixin",
-    "gtceu.LeisurePatternPreviewMixin",
-    "gtceu.PatternPreviewWidgetAccessor",
-    "gtceu.MBPatternAccessor"
+    "guideme.GuideReloadListenerMixin"
   ]
 }

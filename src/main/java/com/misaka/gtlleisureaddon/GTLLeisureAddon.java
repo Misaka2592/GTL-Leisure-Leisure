@@ -1,9 +1,12 @@
 package com.misaka.gtlleisureaddon;
 
+import com.misaka.gtlleisureaddon.api.recipe.LeisureRecipeAPI;
 import com.misaka.gtlleisureaddon.common.LeisureCreativeTabs;
 import com.misaka.gtlleisureaddon.common.machines.LeisureMachines;
 import com.misaka.gtlleisureaddon.common.material.LeisureMaterials;
+import com.misaka.gtlleisureaddon.common.recipe.LeisureNucleonRecipes;
 import com.misaka.gtlleisureaddon.common.recipe.LeisureRecipeTypes;
+import com.misaka.gtlleisureaddon.config.ConfigHolder;
 import com.misaka.gtlleisureaddon.registry.LeisureRegistration;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -14,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -33,9 +37,12 @@ public class GTLLeisureAddon {
     public GTLLeisureAddon() {
         LOGGER.info("Initializing {}", MOD_ID);
 
+        ConfigHolder.init();
+
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         LeisureCreativeTabs.init();
 
-        var modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         LeisureRegistration.REGISTRATE.registerRegistrate();
         LeisureRegistration.REGISTRATE.registerEventListeners(modEventBus);
 
@@ -48,5 +55,8 @@ public class GTLLeisureAddon {
         modEventBus.addGenericListener(GTRecipeType.class, (GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) -> LeisureRecipeTypes.init());
 
         modEventBus.addGenericListener(MachineDefinition.class, (GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) -> LeisureMachines.init());
+
+        LeisureRecipeAPI.register(LeisureNucleonRecipes::init);
+        LeisureRecipeAPI.init();
     }
 }

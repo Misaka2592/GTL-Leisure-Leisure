@@ -1,180 +1,410 @@
 package com.misaka.gtlleisureaddon.util;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static org.gtlcore.gtlcore.utils.Registries.getBlock;
+
 
 import com.gtladd.gtladditions.api.machine.GTLAddPartAbility;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.commands.arguments.blocks.BlockStateParser;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
-import static com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_INPUT_HATCH;
-import static com.gregtechceu.gtceu.common.data.GTMachines.FLUID_EXPORT_HATCH;
-import static com.gregtechceu.gtceu.common.data.GTMachines.FLUID_IMPORT_HATCH;
-import static com.gregtechceu.gtceu.common.data.GTMachines.ITEM_EXPORT_BUS;
-import static com.gregtechceu.gtceu.common.data.GTMachines.ITEM_IMPORT_BUS;
-import static com.gregtechceu.gtceu.common.data.GTMachines.LASER_INPUT_HATCH_256;
 
+/**
+ * 归墟·定元仪 / 浑天仪 ({@code quantum_nucleon_stabilizer_synthesizer}) multiblock layout.
+ * Pattern and symbol bindings are hardcoded below for manual editing.
+ */
 public final class LeisureMultiBlockStructure {
 
     public static final String QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID = "quantum_nucleon_stabilizer_synthesizer";
-    public static final String QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_BIN = "multiblock/" + QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID + ".bin";
 
-    private static final char STABILIZER_CASING_SYMBOL = 'F';
-    private static final char STABILIZER_CONTROLLER_SYMBOL = 'G';
+    private static final char CONTROLLER = 'G';
 
-    private static final char PREVIEW_ENERGY = '0';
-    private static final char PREVIEW_ITEM_IN = '1';
-    private static final char PREVIEW_ITEM_OUT = '2';
-    private static final char PREVIEW_FLUID_IN = '3';
-    private static final char PREVIEW_FLUID_OUT = '4';
-    private static final char PREVIEW_LASER = '5';
+    private static final char LASER_ONLY = 'K';
+    private static final char REPLACEABLE_CASING = 'U';
+    private static final char IRREPLACEABLE_CASING = 'J';
 
-    private static final char[] PREVIEW_HATCH_SYMBOLS = {
-            PREVIEW_ENERGY,
-            PREVIEW_ITEM_IN,
-            PREVIEW_ITEM_OUT,
-            PREVIEW_FLUID_IN,
-            PREVIEW_FLUID_OUT,
-            PREVIEW_LASER
-    };
 
-    /** Live pattern only validates casing, controller, and air. Decorative sheets stay {@code any()}. */
-    private static final Set<Character> STABILIZER_PATTERN_SYMBOLS = Set.of(' ', STABILIZER_CASING_SYMBOL, STABILIZER_CONTROLLER_SYMBOL);
-
-    private static final RelativeDirection[] STABILIZER_DIRECTIONS = {
+    private static final RelativeDirection[] DIRECTIONS = {
             RelativeDirection.BACK,
             RelativeDirection.UP,
             RelativeDirection.LEFT
     };
 
-    /** JEI preview uses GT's conventional outward facing for {@code checkPatternAt}. */
-    private static final Direction PREVIEW_OUTWARD_FACING = Direction.NORTH;
-    private static final Direction PREVIEW_HATCH_FACING = Direction.SOUTH;
-    private static final int PREVIEW_HATCH_TIER = GTValues.LuV;
+    private static final Map<Character, BlockState> QUANTUM_SYMBOLS = Map.ofEntries(
+            Map.entry('A', block("gtceu:fusion_glass")),
+            Map.entry('B', block("gtlcore:molecular_casing")),
+            Map.entry('C', block("kubejs:spacetime_assembly_line_casing")),
+            Map.entry('D', block("gtlcore:rhenium_reinforced_energy_glass")),
+            Map.entry('E', block("kubejs:accelerated_pipeline")),
+            Map.entry('F', block("kubejs:speeding_pipe")),
+            Map.entry('G', block("gtceu:fusion_glass")),
+            Map.entry('H', block("gtceu:ptfe_pipe_casing")),
+            Map.entry('I', block("gtceu:incoloy_ma_956_frame")),
+            Map.entry('J', block("gtceu:atomic_casing")),
+            Map.entry('K', block("gtceu:zpm_16384a_laser_target_hatch")),
+            Map.entry('L', block("gtlcore:enhance_hyper_mechanical_casing")),
+            Map.entry('M', block("gtceu:maraging_steel_300_frame")),
+            Map.entry('N', block("gtceu:fusion_casing_mk3")),
+            Map.entry('O', block("kubejs:laser_cooling_casing")),
+            Map.entry('P', block("gtlcore:multi_functional_casing")),
+            Map.entry('Q', block("gtlcore:component_assembly_line_casing_uv")),
+            Map.entry('R', block("gtceu:computer_heat_vent")),
+            Map.entry('S', block("gtceu:heat_vent")),
+            Map.entry('T', block("kubejs:molecular_coil")),
+            Map.entry('U', block("gtceu:atomic_casing")),
+            Map.entry('W', block("kubejs:magic_core"))
+    );
 
-    private LeisureMultiBlockStructure() {}
+    private static final String[][] QUANTUM_AISLES = {
+            // aisle 0
+            {
+                    "   BBB   ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "   BBB   ",
+                    "         ",
+                    "         ",
+                    "         "
+            },
+            // aisle 1
+            {
+                    "  BBBBB  ",
+                    "   CD    ",
+                    "    D    ",
+                    "    DC   ",
+                    "    C    ",
+                    "   CD    ",
+                    "    D    ",
+                    "    DC   ",
+                    "    C    ",
+                    "   CD    ",
+                    "  BBBBB  ",
+                    "    D    ",
+                    "    D    ",
+                    "         "
+            },
+            // aisle 2
+            {
+                    "  BEEEB  ",
+                    "   DFD   ",
+                    "   CFC   ",
+                    "   DFD   ",
+                    "   DFD   ",
+                    "   DFD   ",
+                    "   CFC   ",
+                    "   DFD   ",
+                    "   DFD   ",
+                    "   DFD   ",
+                    "  BBEBB  ",
+                    "   DHD   ",
+                    "   DHD   ",
+                    "    D    "
+            },
+            // aisle 3
+            {
+                    "  BBBBB  ",
+                    "    DC   ",
+                    "    D    ",
+                    "   CD    ",
+                    "    C    ",
+                    "    DC   ",
+                    "    D    ",
+                    "   CD    ",
+                    "    C    ",
+                    "    DC   ",
+                    "  BBBBB  ",
+                    "   D D   ",
+                    "   DHD   ",
+                    "    D    "
+            },
+            // aisle 4
+            {
+                    "   BBB   ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "   BBB   ",
+                    "    H    ",
+                    "    D    ",
+                    "         "
+            },
+            // aisle 5
+            {
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 6
+            {
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 7
+            {
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 8
+            {
+                    "II  J  II",
+                    "    J    ",
+                    "    J    ",
+                    "    K    ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 9
+            {
+                    "I ILJLI I",
+                    "U  JJJ   ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 10
+            {
+                    "UILLJLLI ",
+                    "U J A J  ",
+                    "   AAA   ",
+                    "   AAA   ",
+                    "    A    ",
+                    "         ",
+                    "         ",
+                    "    M    ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 11
+            {
+                    "ULLNNNLL ",
+                    "UJ AOA J ",
+                    "U A P A  ",
+                    "  AA AA  ",
+                    "   AQA   ",
+                    "    R    ",
+                    "    S    ",
+                    "   MRM   ",
+                    "    A    ",
+                    "    J    ",
+                    "         ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 12
+            {
+                    "UJJNNNJJJ",
+                    "GJAOTOAJJ",
+                    "U APTPA J",
+                    "K A T A K",
+                    "  AQOQA  ",
+                    "   RTR   ",
+                    "   STS   ",
+                    "  MRTRM  ",
+                    "   AWA   ",
+                    "   JHJ   ",
+                    "    H    ",
+                    "    H    ",
+                    "         ",
+                    "         "
+            },
+            // aisle 13
+            {
+                    "ULLNNNLL ",
+                    "UJ AOA J ",
+                    "U A P A  ",
+                    "  AA AA  ",
+                    "   AQA   ",
+                    "    R    ",
+                    "    S    ",
+                    "   MRM   ",
+                    "    A    ",
+                    "    J    ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         "
+            },
+            // aisle 14
+            {
+                    "UILLJLLI ",
+                    "U J A J  ",
+                    "   AAA   ",
+                    "   AAA   ",
+                    "    A    ",
+                    "         ",
+                    "         ",
+                    "    M    ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         "
+            },
+            // aisle 15
+            {
+                    "I ILJLI I",
+                    "U  JJJ   ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         "
+            },
+            // aisle 16
+            {
+                    "II  J  II",
+                    "    J    ",
+                    "    J    ",
+                    "    K    ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         ",
+                    "         "
+            }
+    };
+
+    private LeisureMultiBlockStructure() {
+    }
 
     public static BlockPattern quantumNucleonStabilizerSynthesizer(MultiblockMachineDefinition definition) {
-        List<String[]> aisles = new ArrayList<>();
-        for (String[] aisle : LeisureStructureResourceLoader.loadAisles(
-                QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_BIN,
-                QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID)) {
-            aisles.add(retainSymbols(aisle, STABILIZER_PATTERN_SYMBOLS));
-        }
-
         FactoryBlockPattern pattern = FactoryBlockPattern.start(
-                STABILIZER_DIRECTIONS[0],
-                STABILIZER_DIRECTIONS[1],
-                STABILIZER_DIRECTIONS[2]);
-        for (String[] aisle : aisles) {
+                DIRECTIONS[0],
+                DIRECTIONS[1],
+                DIRECTIONS[2]);
+        for (String[] aisle : QUANTUM_AISLES) {
             pattern.aisle(aisle);
         }
 
-        return pattern
-                .where(STABILIZER_CONTROLLER_SYMBOL, Predicates.controller(Predicates.blocks(definition.getBlock()))
-                        .setPreviewCount(1))
-                .where(STABILIZER_CASING_SYMBOL, Predicates.blocks(GTBlocks.CASING_TITANIUM_STABLE.get())
-                        .setMinGlobalLimited(1)
-                        .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                        .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
-                        .or(Predicates.abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(2).setPreviewCount(1))
-                        .or(Predicates.abilities(GTLAddPartAbility.INSTANCE.getTHREAD_MODIFIER())
-                                .setMaxGlobalLimited(1)
-                                .setPreviewCount(1)))
-                .build();
+        for (Map.Entry<Character, BlockState> entry : QUANTUM_SYMBOLS.entrySet()) {
+            char symbol = entry.getKey();
+            BlockState state = entry.getValue();
+            if (symbol == CONTROLLER) {
+                pattern.where(CONTROLLER, controller(blocks(definition.getBlock())).setPreviewCount(1));
+                continue;
+            }
+            if (symbol == LASER_ONLY) {
+                pattern.where(
+                        LASER_ONLY,
+                        blocks(getBlock("gtceu:atomic_casing"))
+                                .or(abilities(PartAbility.INPUT_LASER)
+                                        .setMaxGlobalLimited(4)));
+                continue;
+            }
+            if (symbol == REPLACEABLE_CASING) {
+                pattern.where(
+                        REPLACEABLE_CASING,
+                        blocks(state.getBlock())
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1))
+                                .or(abilities(GTLAddPartAbility.INSTANCE.getTHREAD_MODIFIER())
+                                        .setMaxGlobalLimited(1)));
+                continue;
+            }
+            pattern.where(symbol, blocks(state.getBlock()));
+        }
+        return pattern.build();
     }
 
-    /**
-     * Explicit {@link MultiblockShapeInfo} with reversed aisles (see GTLCore {@code STEAM_PISTON_HAMMER}) plus preview
-     * hatch injection so {@code checkPatternAt} can succeed and populate click predicates.
-     */
-    public static List<MultiblockShapeInfo> quantumNucleonStabilizerShapeInfos(MultiblockMachineDefinition definition) {
-        String[][] aisles = LeisureStructureResourceLoader.loadAisles(
-                QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_BIN,
-                QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER_ID);
-        String[][] previewAisles = injectPreviewHatches(aisles);
-
-        MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
-                .where(STABILIZER_CONTROLLER_SYMBOL, definition, PREVIEW_OUTWARD_FACING)
-                .where(STABILIZER_CASING_SYMBOL, GTBlocks.CASING_TITANIUM_STABLE.get())
-                .where(PREVIEW_ENERGY, ENERGY_INPUT_HATCH[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where(PREVIEW_ITEM_IN, ITEM_IMPORT_BUS[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where(PREVIEW_ITEM_OUT, ITEM_EXPORT_BUS[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where(PREVIEW_FLUID_IN, FLUID_IMPORT_HATCH[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where(PREVIEW_FLUID_OUT, FLUID_EXPORT_HATCH[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where(PREVIEW_LASER, LASER_INPUT_HATCH_256[PREVIEW_HATCH_TIER], PREVIEW_HATCH_FACING)
-                .where('A', LeisureStructureBlocks.BLACK_METAL_SHEET)
-                .where('B', LeisureStructureBlocks.BROWN_METAL_SHEET)
-                .where('C', LeisureStructureBlocks.GRAY_METAL_SHEET)
-                .where('D', LeisureStructureBlocks.GREEN_METAL_SHEET)
-                .where('E', LeisureStructureBlocks.LIGHT_GRAY_METAL_SHEET)
-                .where(' ', Blocks.AIR.defaultBlockState());
-
-        for (int aisleIndex = previewAisles.length - 1; aisleIndex >= 0; aisleIndex--) {
-            builder = builder.aisle(previewAisles[aisleIndex]);
+    private static BlockState block(String id) {
+        try {
+            return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), id, false).blockState();
+        } catch (Exception exception) {
+            throw new IllegalStateException("Invalid structure block id '" + id + "'", exception);
         }
-        return List.of(builder.build());
-    }
-
-    private static String[][] injectPreviewHatches(String[][] aisles) {
-        String[][] copy = new String[aisles.length][];
-        for (int aisleIndex = 0; aisleIndex < aisles.length; aisleIndex++) {
-            copy[aisleIndex] = new String[aisles[aisleIndex].length];
-            for (int rowIndex = 0; rowIndex < aisles[aisleIndex].length; rowIndex++) {
-                copy[aisleIndex][rowIndex] = aisles[aisleIndex][rowIndex];
-            }
-        }
-
-        int hatchIndex = 0;
-        outer:
-        for (int aisleIndex = 0; aisleIndex < copy.length; aisleIndex++) {
-            for (int rowIndex = 0; rowIndex < copy[aisleIndex].length; rowIndex++) {
-                char[] row = copy[aisleIndex][rowIndex].toCharArray();
-                boolean changed = false;
-                for (int columnIndex = 0; columnIndex < row.length; columnIndex++) {
-                    if (row[columnIndex] != STABILIZER_CASING_SYMBOL || hatchIndex >= PREVIEW_HATCH_SYMBOLS.length) {
-                        continue;
-                    }
-                    row[columnIndex] = PREVIEW_HATCH_SYMBOLS[hatchIndex++];
-                    changed = true;
-                    if (hatchIndex >= PREVIEW_HATCH_SYMBOLS.length) {
-                        if (changed) {
-                            copy[aisleIndex][rowIndex] = new String(row);
-                        }
-                        break outer;
-                    }
-                }
-                if (changed) {
-                    copy[aisleIndex][rowIndex] = new String(row);
-                }
-            }
-        }
-        return copy;
-    }
-
-    private static String[] retainSymbols(String[] aisle, Set<Character> allowed) {
-        String[] sanitized = new String[aisle.length];
-        for (int rowIndex = 0; rowIndex < aisle.length; rowIndex++) {
-            char[] row = aisle[rowIndex].toCharArray();
-            for (int colIndex = 0; colIndex < row.length; colIndex++) {
-                if (!allowed.contains(row[colIndex])) {
-                    row[colIndex] = ' ';
-                }
-            }
-            sanitized[rowIndex] = new String(row);
-        }
-        return sanitized;
     }
 }
+
+

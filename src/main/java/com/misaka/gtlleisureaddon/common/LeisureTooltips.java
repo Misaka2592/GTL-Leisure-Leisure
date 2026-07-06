@@ -18,4 +18,8 @@ public final class LeisureTooltips {
         // Resolve at tooltip render time; calling getString() during mod init returns the raw key.
         return Component.literal(TextUtil.full_color(Component.translatable(translationKey).getString()));
     }
+
+    public static Component fullColor(Component component) {
+        return Component.literal(TextUtil.full_color(component.getString()));
+    }
 }

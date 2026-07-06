@@ -43,3 +43,10 @@ mandatory=false
 versionRange="[2.6.5,)"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="configuration"
+mandatory=false
+versionRange="[2.0,)"
+ordering="NONE"
+side="BOTH"

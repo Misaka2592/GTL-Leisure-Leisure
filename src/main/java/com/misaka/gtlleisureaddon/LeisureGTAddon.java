@@ -1,7 +1,7 @@
 package com.misaka.gtlleisureaddon;
 
+import com.misaka.gtlleisureaddon.api.recipe.LeisureRecipeRegistration;
 import com.misaka.gtlleisureaddon.common.items.LeisureItems;
-import com.misaka.gtlleisureaddon.common.recipe.LeisureNucleonRecipes;
 import com.misaka.gtlleisureaddon.registry.LeisureRegistration;
 
 import com.gregtechceu.gtceu.api.addon.GTAddon;
@@ -32,6 +32,6 @@ public class LeisureGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        LeisureNucleonRecipes.init(provider);
+        LeisureRecipeRegistration.apply(provider);
     }
 }
