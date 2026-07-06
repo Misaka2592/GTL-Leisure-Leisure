@@ -1,1 +1,69 @@
-package com.misaka.gtlleisureaddon.common.machines;import com.gregtechceu.gtceu.common.data.GCyMBlocks;import com.misaka.gtlleisureaddon.common.LeisureCreativeTabs;import com.misaka.gtlleisureaddon.common.LeisureTooltips;import com.misaka.gtlleisureaddon.common.recipe.LeisureRecipeTypes;import com.misaka.gtlleisureaddon.registry.LeisureRegistration;import com.misaka.gtlleisureaddon.util.LeisureMultiBlockStructure;import com.gregtechceu.gtceu.GTCEu;import com.gregtechceu.gtceu.api.data.RotationState;import com.gregtechceu.gtceu.api.machine.MachineDefinition;import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;import com.gtladd.gtladditions.api.machine.multiblock.GTLAddWorkableElectricParallelHatchMultipleRecipesMachine;import net.minecraft.ChatFormatting;import net.minecraft.network.chat.Component;public final class LeisureMachines {    public static MachineDefinition QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER;    private static boolean initialized;    private LeisureMachines() {}    public static void init() {        if (initialized) {            return;        }        initialized = true;        LeisureRecipeTypes.init();        LeisureRegistration.REGISTRATE.creativeModeTab(() -> LeisureCreativeTabs.MAIN);        QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER = LeisureRegistration.REGISTRATE                .multiblock("quantum_nucleon_stabilizer_synthesizer", GTLAddWorkableElectricParallelHatchMultipleRecipesMachine::new)                .rotationState(RotationState.NON_Y_AXIS)                .allowExtendedFacing(false)                .recipeTypes(                        LeisureRecipeTypes.NUCLEON_DECOUPLING_PROTOCOL,                        LeisureRecipeTypes.NUCLEON_COUPLING_PROTOCOL)                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)                .appearanceBlock(GCyMBlocks.CASING_ATOMIC)                .pattern(LeisureMultiBlockStructure::quantumNucleonStabilizerSynthesizer)                .multiblockPreviewRenderer(true, true)                .workableCasingRenderer(                        GTCEu.id("block/casings/gcym/atomic_casing"),                        GTCEu.id("block/multiblock/fusion_reactor")                )                .langValue("Quantum Nucleon Stabilizer-Synthesizer")                .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))                .tooltips(Component.translatable("lleisure.multiblock.laseronly.tooltip"))                .tooltips(Component.translatable("gtladditions.multiblock.thread.tooltip.0"))                .tooltips(Component.translatable("gtladditions.multiblock.thread.tooltip.1",                        Component.literal("2").withStyle(ChatFormatting.GOLD)))                .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",                        Component.translatable(LeisureRecipeTypes.NUCLEON_DECOUPLING_PROTOCOL.registryName.toLanguageKey()),                        Component.translatable(LeisureRecipeTypes.NUCLEON_COUPLING_PROTOCOL.registryName.toLanguageKey())))                .tooltipBuilder((stack, components) -> {                    components.add(1, LeisureTooltips.fullColor("machine.lleisure.quantum_nucleon_stabilizer_synthesizer.tooltip"));                    LeisureTooltips.LEISURE_ADD.accept(stack, components);                })                .register();    }}
+package com.misaka.gtlleisureaddon.common.machines;
+
+import com.misaka.gtlleisureaddon.common.LeisureCreativeTabs;
+import com.misaka.gtlleisureaddon.common.LeisureTooltips;
+import com.misaka.gtlleisureaddon.common.recipe.LeisureRecipeTypes;
+import com.misaka.gtlleisureaddon.registry.LeisureRegistration;
+import com.misaka.gtlleisureaddon.util.LeisureMultiBlockStructure;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.GCyMBlocks;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+
+import com.gtladd.gtladditions.api.machine.multiblock.GTLAddWorkableElectricParallelHatchMultipleRecipesMachine;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+
+public final class LeisureMachines {
+
+    public static MachineDefinition QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER;
+
+    private static boolean initialized;
+
+    private LeisureMachines() {}
+
+    public static void init() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+
+        LeisureRecipeTypes.init();
+        LeisureRegistration.REGISTRATE.creativeModeTab(() -> LeisureCreativeTabs.MAIN);
+
+        QUANTUM_NUCLEON_STABILIZER_SYNTHESIZER = LeisureRegistration.REGISTRATE
+                .multiblock("quantum_nucleon_stabilizer_synthesizer", GTLAddWorkableElectricParallelHatchMultipleRecipesMachine::new)
+                .rotationState(RotationState.NON_Y_AXIS)
+                .allowExtendedFacing(false)
+                .recipeTypes(
+                        LeisureRecipeTypes.NUCLEON_DECOUPLING_PROTOCOL,
+                        LeisureRecipeTypes.NUCLEON_COUPLING_PROTOCOL)
+                .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH)
+                .appearanceBlock(GCyMBlocks.CASING_ATOMIC)
+                .pattern(LeisureMultiBlockStructure::quantumNucleonStabilizerSynthesizer)
+                .multiblockPreviewRenderer(true, true)
+                .workableCasingRenderer(
+                        GTCEu.id("block/casings/gcym/atomic_casing"),
+                        GTCEu.id("block/multiblock/fusion_reactor"))
+                .langValue("Quantum Nucleon Stabilizer-Synthesizer")
+                .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
+                .tooltips(Component.translatable("lleisure.multiblock.laseronly.tooltip"))
+                .tooltips(Component.translatable("gtladditions.multiblock.thread.tooltip.0"))
+                .tooltips(Component.translatable("gtladditions.multiblock.thread.tooltip.1",
+
+                        Component.literal("2").withStyle(ChatFormatting.GOLD)))
+                .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
+
+                        Component.translatable(LeisureRecipeTypes.NUCLEON_DECOUPLING_PROTOCOL.registryName.toLanguageKey()),
+
+                        Component.translatable(LeisureRecipeTypes.NUCLEON_COUPLING_PROTOCOL.registryName.toLanguageKey())))
+                .tooltipBuilder((stack, components) -> {
+                    components.add(1, LeisureTooltips.fullColor("machine.lleisure.quantum_nucleon_stabilizer_synthesizer.tooltip"));
+                    LeisureTooltips.LEISURE_ADD.accept(stack, components);
+                })
+                .register();
+    }
+}

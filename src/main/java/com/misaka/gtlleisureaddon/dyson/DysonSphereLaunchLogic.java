@@ -51,9 +51,7 @@ public final class DysonSphereLaunchLogic {
     public static int getModulesPerLaunch(int launched) {
         double efficiency = getLaunchEfficiency(launched);
         if (efficiency <= 0.0D) {
-            efficiency = ConfigHolder.INSTANCE != null
-                    ? ConfigHolder.INSTANCE.dysonSphere.minLaunchEfficiency
-                    : 0.2D;
+            efficiency = ConfigHolder.INSTANCE != null ? ConfigHolder.INSTANCE.dysonSphere.minLaunchEfficiency : 0.2D;
         }
         double raw = getDeploymentBatch(launched) / efficiency;
         return Math.max(1, (int) Math.ceil(raw));
@@ -109,9 +107,7 @@ public final class DysonSphereLaunchLogic {
         if (remaining <= 0L) {
             return 1L;
         }
-        double fraction = ConfigHolder.INSTANCE != null
-                ? ConfigHolder.INSTANCE.dysonSphere.remainingModuleFraction
-                : 0.03D;
+        double fraction = ConfigHolder.INSTANCE != null ? ConfigHolder.INSTANCE.dysonSphere.remainingModuleFraction : 0.03D;
         long cost = (long) Math.ceil(remaining * fraction);
         cost = Math.max(1L, Math.min(cost, remaining));
         if (damagePercent < 60) {

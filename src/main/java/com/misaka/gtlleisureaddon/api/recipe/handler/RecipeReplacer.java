@@ -10,7 +10,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
- * Fully replaces a matched recipe, typically by rebuilding with {@link com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder}.
+ * Fully replaces a matched recipe, typically by rebuilding with
+ * {@link com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder}.
  */
 @FunctionalInterface
 public interface RecipeReplacer {

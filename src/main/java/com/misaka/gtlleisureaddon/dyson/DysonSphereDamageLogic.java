@@ -10,14 +10,14 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 
+import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-
-import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,8 +27,7 @@ import java.util.Set;
 
 public final class DysonSphereDamageLogic {
 
-    private static final ResourceLocation DYSON_SWARM_MODULE =
-            ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
+    private static final ResourceLocation DYSON_SWARM_MODULE = ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
 
     private static final int BATCH_REPAIR_THRESHOLD_MULTIPLIER = 2;
     private static final int MAX_BATCH_REPAIR_STEPS = 100;
@@ -107,9 +106,7 @@ public final class DysonSphereDamageLogic {
     }
 
     private static boolean canRunOnServer(DysonSphereMachine machine) {
-        return DysonSphereLaunchLogic.isEnabled()
-                && machine.getLevel() != null
-                && !machine.getLevel().isClientSide();
+        return DysonSphereLaunchLogic.isEnabled() && machine.getLevel() != null && !machine.getLevel().isClientSide();
     }
 
     private static Item getModuleItem() {
@@ -138,7 +135,7 @@ public final class DysonSphereDamageLogic {
     }
 
     private static long countInRecipeHandler(
-            IRecipeHandler<?> handler, Item moduleItem, Set<ItemStackTransfer> seen) {
+                                             IRecipeHandler<?> handler, Item moduleItem, Set<ItemStackTransfer> seen) {
         if (handler instanceof ItemHandlerProxyRecipeTrait proxy) {
             long total = 0L;
             for (var child : proxy.getHandlers()) {
@@ -155,7 +152,7 @@ public final class DysonSphereDamageLogic {
     }
 
     private static long countInItemHandler(
-            NotifiableItemStackHandler handler, Item moduleItem, Set<ItemStackTransfer> seen) {
+                                           NotifiableItemStackHandler handler, Item moduleItem, Set<ItemStackTransfer> seen) {
         if (handler.handlerIO != IO.IN || !seen.add(handler.storage)) {
             return 0L;
         }
@@ -171,10 +168,8 @@ public final class DysonSphereDamageLogic {
     }
 
     private static boolean isConsumableModuleStack(
-            NotifiableItemStackHandler handler, int slot, ItemStack stack, Item moduleItem) {
-        return !stack.isEmpty()
-                && isModuleStack(stack, moduleItem)
-                && handler.isItemValid(slot, stack);
+                                                   NotifiableItemStackHandler handler, int slot, ItemStack stack, Item moduleItem) {
+        return !stack.isEmpty() && isModuleStack(stack, moduleItem) && handler.isItemValid(slot, stack);
     }
 
     private static boolean isModuleStack(ItemStack stack, Item moduleItem) {

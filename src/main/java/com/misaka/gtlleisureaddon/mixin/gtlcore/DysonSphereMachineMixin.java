@@ -11,10 +11,12 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 
+import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
+
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,8 +24,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -32,8 +34,7 @@ import java.util.List;
 @Mixin(value = DysonSphereMachine.class, remap = false)
 public abstract class DysonSphereMachineMixin {
 
-    private static final ResourceLocation DYSON_SWARM_MODULE =
-            ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
+    private static final ResourceLocation DYSON_SWARM_MODULE = ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
 
     @Shadow(remap = false)
     private int DysonSphereData;
@@ -43,7 +44,7 @@ public abstract class DysonSphereMachineMixin {
 
     @Inject(method = "recipeModifier", at = @At("RETURN"), cancellable = true, remap = false)
     private static void lleisure$modifyLaunchRecipe(MetaMachine machine, GTRecipe recipe,
-                                                     CallbackInfoReturnable<GTRecipe> cir) {
+                                                    CallbackInfoReturnable<GTRecipe> cir) {
         if (!DysonSphereLaunchLogic.isEnabled()) {
             return;
         }
@@ -62,29 +63,25 @@ public abstract class DysonSphereMachineMixin {
 
     @ModifyConstant(method = "onWorking", constant = @Constant(intValue = 10000), require = 1, remap = false)
     private static int lleisure$maxModulesOnWorking(int ignored) {
-        return DysonSphereLaunchLogic.isEnabled()
-                ? DysonSphereLaunchLogic.getMaxModules()
-                : ignored;
+        return DysonSphereLaunchLogic.isEnabled() ? DysonSphereLaunchLogic.getMaxModules() : ignored;
     }
 
     @ModifyConstant(method = "beforeWorking", constant = @Constant(intValue = 10000), require = 1, remap = false)
     private static int lleisure$maxModulesBeforeWorking(int ignored) {
-        return DysonSphereLaunchLogic.isEnabled()
-                ? DysonSphereLaunchLogic.getLaunchCapInclusiveLimit()
-                : ignored;
+        return DysonSphereLaunchLogic.isEnabled() ? DysonSphereLaunchLogic.getLaunchCapInclusiveLimit() : ignored;
     }
 
     @Redirect(
-            method = "onWorking",
-            at = @At(
-                    value = "FIELD",
-                    opcode = Opcodes.PUTFIELD,
-                    target = "Lorg/gtlcore/gtlcore/common/machine/multiblock/generator/DysonSphereMachine;DysonSphereData:I"),
-            slice = @Slice(
-                    from = @At(value = "CONSTANT", args = "intValue=200", remap = false),
-                    to = @At(value = "CONSTANT", args = "intValue=20", remap = false)),
-            require = 1,
-            remap = false)
+              method = "onWorking",
+              at = @At(
+                       value = "FIELD",
+                       opcode = Opcodes.PUTFIELD,
+                       target = "Lorg/gtlcore/gtlcore/common/machine/multiblock/generator/DysonSphereMachine;DysonSphereData:I"),
+              slice = @Slice(
+                             from = @At(value = "CONSTANT", args = "intValue=200", remap = false),
+                             to = @At(value = "CONSTANT", args = "intValue=20", remap = false)),
+              require = 1,
+              remap = false)
     private void lleisure$applyLaunchGain(DysonSphereMachine instance, int valueAfterVanillaIncrement) {
         DysonSphereMachineMixin self = (DysonSphereMachineMixin) (Object) instance;
         if (!DysonSphereLaunchLogic.isEnabled()) {
@@ -97,20 +94,18 @@ public abstract class DysonSphereMachineMixin {
     }
 
     @Redirect(
-            method = "onWorking",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Math;random()D"),
-            slice = @Slice(from = @At(value = "CONSTANT", args = "intValue=20", remap = false), to = @At("RETURN")),
-            require = 1,
-            remap = true)
+              method = "onWorking",
+              at = @At(value = "INVOKE", target = "Ljava/lang/Math;random()D"),
+              slice = @Slice(from = @At(value = "CONSTANT", args = "intValue=20", remap = false), to = @At("RETURN")),
+              require = 1,
+              remap = true)
     private double lleisure$interceptDamageRoll() {
         DysonSphereMachine instance = (DysonSphereMachine) (Object) this;
         double roll = Math.random();
         if (!DysonSphereLaunchLogic.isEnabled()) {
             return roll;
         }
-        if (instance.getRecipeLogic().getDuration() != 20
-                || instance.getRecipeLogic().getProgress() != 19
-                || instance.getDysonSphereData() <= 0) {
+        if (instance.getRecipeLogic().getDuration() != 20 || instance.getRecipeLogic().getProgress() != 19 || instance.getDysonSphereData() <= 0) {
             return roll;
         }
         DysonSphereMachineMixin self = (DysonSphereMachineMixin) (Object) instance;
@@ -134,11 +129,11 @@ public abstract class DysonSphereMachineMixin {
     }
 
     @Redirect(
-            method = "addDisplayText",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;"),
-            remap = true)
+              method = "addDisplayText",
+              at = @At(
+                       value = "INVOKE",
+                       target = "Lnet/minecraft/network/chat/Component;translatable(Ljava/lang/String;[Ljava/lang/Object;)Lnet/minecraft/network/chat/MutableComponent;"),
+              remap = true)
     private MutableComponent lleisure$redirectDisplayText(String key, Object[] args) {
         if (!DysonSphereLaunchLogic.isEnabled()) {
             return Component.translatable(key, args);

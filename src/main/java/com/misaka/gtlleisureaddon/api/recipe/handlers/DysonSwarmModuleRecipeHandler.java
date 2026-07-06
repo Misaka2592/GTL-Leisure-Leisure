@@ -7,8 +7,9 @@ import com.misaka.gtlleisureaddon.config.ConfigHolder;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+
+import com.mojang.logging.LogUtils;
 import org.slf4j.Logger;
 
 /**
@@ -19,10 +20,8 @@ import org.slf4j.Logger;
 public final class DysonSwarmModuleRecipeHandler {
 
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final ResourceLocation RECIPE_ID =
-            RecipeIds.of("kubejs", "precision_assembler", "dyson_swarm_module");
-    private static final ResourceLocation OUTPUT_ITEM =
-            ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
+    private static final ResourceLocation RECIPE_ID = RecipeIds.of("kubejs", "precision_assembler", "dyson_swarm_module");
+    private static final ResourceLocation OUTPUT_ITEM = ResourceLocation.fromNamespaceAndPath("kubejs", "dyson_swarm_module");
     private static final String MODIFIED_FLAG = GTLLeisureAddon.MOD_ID + ":dyson_swarm_module_override";
     private static final int FLUID_SCALE_PERCENT = 10;
     private static final int OUTPUT_COUNT = 1024;

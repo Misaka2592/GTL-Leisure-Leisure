@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class LeisureRecipeLookupMixin {
 
     @ModifyVariable(
-            method = "addRecipe",
-            at = @At("HEAD"),
-            argsOnly = true,
-            ordinal = 0,
-            remap = false)
+                    method = "addRecipe",
+                    at = @At("HEAD"),
+                    argsOnly = true,
+                    ordinal = 0,
+                    remap = false)
     private GTRecipe lleisure$processRecipe(GTRecipe recipe) {
         return LeisureRecipeAPI.processRecipe(recipe);
     }

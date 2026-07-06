@@ -4,9 +4,10 @@ import com.misaka.gtlleisureaddon.common.LeisureTooltips;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 
+import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
+
 import net.minecraft.network.chat.Component;
 
-import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

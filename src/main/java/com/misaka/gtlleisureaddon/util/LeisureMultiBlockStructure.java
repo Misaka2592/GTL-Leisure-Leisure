@@ -5,9 +5,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static org.gtlcore.gtlcore.utils.Registries.getBlock;
-
 
 import com.gtladd.gtladditions.api.machine.GTLAddPartAbility;
 
@@ -17,6 +14,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
 
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static org.gtlcore.gtlcore.utils.Registries.getBlock;
 
 /**
  * 归墟·定元仪 / 浑天仪 ({@code quantum_nucleon_stabilizer_synthesizer}) multiblock layout.
@@ -31,7 +30,6 @@ public final class LeisureMultiBlockStructure {
     private static final char LASER_ONLY = 'K';
     private static final char REPLACEABLE_CASING = 'U';
     private static final char IRREPLACEABLE_CASING = 'J';
-
 
     private static final RelativeDirection[] DIRECTIONS = {
             RelativeDirection.BACK,
@@ -61,8 +59,7 @@ public final class LeisureMultiBlockStructure {
             Map.entry('S', block("gtceu:heat_vent")),
             Map.entry('T', block("kubejs:molecular_coil")),
             Map.entry('U', block("gtceu:atomic_casing")),
-            Map.entry('W', block("kubejs:magic_core"))
-    );
+            Map.entry('W', block("kubejs:magic_core")));
 
     private static final String[][] QUANTUM_AISLES = {
             // aisle 0
@@ -356,8 +353,7 @@ public final class LeisureMultiBlockStructure {
             }
     };
 
-    private LeisureMultiBlockStructure() {
-    }
+    private LeisureMultiBlockStructure() {}
 
     public static BlockPattern quantumNucleonStabilizerSynthesizer(MultiblockMachineDefinition definition) {
         FactoryBlockPattern pattern = FactoryBlockPattern.start(
@@ -406,5 +402,3 @@ public final class LeisureMultiBlockStructure {
         }
     }
 }
-
-

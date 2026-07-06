@@ -32,8 +32,7 @@ public class ConfigHolder {
     public static class Recipes {
 
         @Configurable
-        @Configurable.Comment(
-                "Override kubejs dyson_swarm_module: scale input fluids to 10%, output 1024 modules. Reload recipes after change.")
+        @Configurable.Comment("Override kubejs dyson_swarm_module: scale input fluids to 10%, output 1024 modules. Reload recipes after change.")
         public boolean dysonSwarmModuleOverride = true;
     }
 
@@ -54,8 +53,7 @@ public class ConfigHolder {
         public int minModulesPerLaunch = 64;
 
         @Configurable
-        @Configurable.Comment(
-                "Fraction of remaining launch capacity deployed per launch, and consumed per damage repair tick (also sets launch count gain)")
+        @Configurable.Comment("Fraction of remaining launch capacity deployed per launch, and consumed per damage repair tick (also sets launch count gain)")
         public double remainingModuleFraction = 0.03D;
 
         @Configurable
