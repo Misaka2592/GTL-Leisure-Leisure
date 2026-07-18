@@ -2,16 +2,11 @@ package com.misaka.gtlleisureaddon.common.items;
 
 import com.misaka.gtlleisureaddon.registry.LeisureRegistration;
 
-import com.gregtechceu.gtceu.GTCEu;
-
 import net.minecraft.world.item.Item;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 public final class LeisureItems {
-
-    public static ItemEntry<Item> EXAMPLE_COMPONENT;
-    public static ItemEntry<Item> EXAMPLE_CATALYST;
 
     public static final int NUCLEON_AGGREGATION_CATALYST_COUNT = 9;
     public static final ItemEntry<Item>[] NUCLEON_AGGREGATION_CATALYSTS = new ItemEntry[NUCLEON_AGGREGATION_CATALYST_COUNT];
@@ -30,18 +25,6 @@ public final class LeisureItems {
             return;
         }
         initialized = true;
-
-        EXAMPLE_COMPONENT = LeisureRegistration.REGISTRATE
-                .item("example_component", Item::new)
-                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), GTCEu.id("item/diamond_dust")))
-                .lang("Example Component")
-                .register();
-
-        EXAMPLE_CATALYST = LeisureRegistration.REGISTRATE
-                .item("example_catalyst", Item::new)
-                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), GTCEu.id("item/gold_dust")))
-                .lang("Example Catalyst")
-                .register();
 
         for (int i = 0; i < NUCLEON_AGGREGATION_CATALYST_COUNT; i++) {
             String id = "nucleon_aggregation_catalyst_mk_" + CATALYST_MK_ROMAN[i];

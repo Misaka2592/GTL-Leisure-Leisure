@@ -30,6 +30,7 @@ public final class LeisureNucleonRecipes {
             "hypogen",
             "chaos",
             "draconiumawakened",
+            // "mtter" is GTLCore's actual registered material id (upstream typo), do not "fix" it
             "white_dwarf_mtter",
             "raw_star_matter",
             "magnetohydrodynamicallyconstrainedstarmatter",
@@ -123,19 +124,19 @@ public final class LeisureNucleonRecipes {
 
     private static void appendNucleonOutputs(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, long protons, long neutrons) {
         if (protons > 0) {
-            builder.outputItems(dust, LeisureMaterials.PROTON, (int) protons);
+            builder.outputItems(dust, LeisureMaterials.PROTON, Math.toIntExact(protons));
         }
         if (neutrons > 0) {
-            builder.outputItems(dust, LeisureMaterials.NEUTRON, (int) neutrons);
+            builder.outputItems(dust, LeisureMaterials.NEUTRON, Math.toIntExact(neutrons));
         }
     }
 
     private static void appendNucleonInputs(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, long protons, long neutrons) {
         if (protons > 0) {
-            builder.inputItems(dust, LeisureMaterials.PROTON, (int) protons);
+            builder.inputItems(dust, LeisureMaterials.PROTON, Math.toIntExact(protons));
         }
         if (neutrons > 0) {
-            builder.inputItems(dust, LeisureMaterials.NEUTRON, (int) neutrons);
+            builder.inputItems(dust, LeisureMaterials.NEUTRON, Math.toIntExact(neutrons));
         }
     }
 
