@@ -4,12 +4,17 @@ on:
   push:
     branches:
       - master
+      - nightly
   pull_request:
     branches:
       - master
 
 permissions:
   contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -22,7 +27,12 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          # nightly and master share the same cache pool; allow both to write.
+          cache-read-only: false
 
       - name: Restore cached dependency libs
         uses: actions/cache/restore@v4
@@ -52,4 +62,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build
-        run: ./gradlew build --no-daemon --stacktrace
+        run: ./gradlew build --stacktrace
+
+      - name: Save dependency libs cache
+        if: steps.libs-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: libs
+          key: lleisure-libs-${{ hashFiles('libs/README.md') }}
