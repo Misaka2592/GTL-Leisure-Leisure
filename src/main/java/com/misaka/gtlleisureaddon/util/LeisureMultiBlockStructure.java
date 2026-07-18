@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import com.gtladd.gtladditions.api.machine.GTLAddPartAbility;
 
-import net.minecraft.commands.arguments.blocks.BlockStateParser;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
@@ -395,10 +395,10 @@ public final class LeisureMultiBlockStructure {
     }
 
     private static BlockState block(String id) {
-        try {
-            return BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), id, false).blockState();
-        } catch (Exception exception) {
-            throw new IllegalStateException("Invalid structure block id '" + id + "'", exception);
+        Block resolved = getBlock(id);
+        if (resolved == null || resolved == Blocks.AIR) {
+            throw new IllegalStateException("Invalid structure block id '" + id + "'");
         }
+        return resolved.defaultBlockState();
     }
 }

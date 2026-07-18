@@ -319,6 +319,7 @@ publishing {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.release = 17
+    options.compilerArgs << '-Xlint:deprecation'
 }
 
 spotless {

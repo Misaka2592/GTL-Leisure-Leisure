@@ -34,12 +34,12 @@ public class GTLLeisureAddon {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
-    public GTLLeisureAddon() {
+    public GTLLeisureAddon(FMLJavaModLoadingContext context) {
         LOGGER.info("Initializing {}", MOD_ID);
 
         ConfigHolder.init();
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = context.getModEventBus();
 
         LeisureCreativeTabs.init();
 

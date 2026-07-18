@@ -6,6 +6,7 @@ import com.misaka.gtlleisureaddon.api.recipe.handler.RecipeReplacer;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +39,7 @@ public final class LeisureRecipeRegistry {
         MODIFIERS.add(modifier);
     }
 
-    static void addRegistration(@NotNull Consumer<java.util.function.Consumer<net.minecraft.data.recipes.FinishedRecipe>> registrar) {
+    static void addRegistration(@NotNull Consumer<Consumer<FinishedRecipe>> registrar) {
         LeisureRecipeRegistration.register(registrar);
     }
 

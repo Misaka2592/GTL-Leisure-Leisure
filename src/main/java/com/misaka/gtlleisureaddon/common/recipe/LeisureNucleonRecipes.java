@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
@@ -106,7 +107,7 @@ public final class LeisureNucleonRecipes {
                 .save(provider);
     }
 
-    private static void appendElementInput(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, Material material) {
+    private static void appendElementInput(GTRecipeBuilder builder, Material material) {
         if (material.hasProperty(PropertyKey.DUST)) {
             builder.inputItems(dust, material, 1);
         } else {
@@ -114,7 +115,7 @@ public final class LeisureNucleonRecipes {
         }
     }
 
-    private static void appendElementOutput(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, Material material) {
+    private static void appendElementOutput(GTRecipeBuilder builder, Material material) {
         if (material.hasProperty(PropertyKey.DUST)) {
             builder.outputItems(dust, material, 1);
         } else {
@@ -122,7 +123,7 @@ public final class LeisureNucleonRecipes {
         }
     }
 
-    private static void appendNucleonOutputs(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, long protons, long neutrons) {
+    private static void appendNucleonOutputs(GTRecipeBuilder builder, long protons, long neutrons) {
         if (protons > 0) {
             builder.outputItems(dust, LeisureMaterials.PROTON, Math.toIntExact(protons));
         }
@@ -131,7 +132,7 @@ public final class LeisureNucleonRecipes {
         }
     }
 
-    private static void appendNucleonInputs(com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder builder, long protons, long neutrons) {
+    private static void appendNucleonInputs(GTRecipeBuilder builder, long protons, long neutrons) {
         if (protons > 0) {
             builder.inputItems(dust, LeisureMaterials.PROTON, Math.toIntExact(protons));
         }

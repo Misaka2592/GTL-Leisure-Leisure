@@ -7,14 +7,24 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = GTLLeisureAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class LeisureItemTooltipHandler {
+
+    private static final TagPrefix[] MATERIAL_PREFIXES = { TagPrefix.dustTiny, TagPrefix.dustSmall, TagPrefix.dust };
+
+    // Lazily resolved once; tooltip events fire every frame while hovering.
+    private static volatile List<TagKey<Item>> leisureMaterialTags;
 
     private LeisureItemTooltipHandler() {}
 
@@ -33,7 +43,7 @@ public final class LeisureItemTooltipHandler {
             return;
         }
 
-        if (GTLLeisureAddon.MOD_ID.equals(id.getNamespace()) && (id.getPath().startsWith("example_") || id.getPath().startsWith("nucleon_aggregation_catalyst_"))) {
+        if (GTLLeisureAddon.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("nucleon_aggregation_catalyst_")) {
             LeisureTooltips.LEISURE_ADD.accept(stack, event.getToolTip());
             return;
         }
@@ -44,11 +54,30 @@ public final class LeisureItemTooltipHandler {
     }
 
     private static boolean isLeisureMaterialItem(ItemStack stack) {
-        for (TagPrefix prefix : new TagPrefix[] { TagPrefix.dustTiny, TagPrefix.dustSmall, TagPrefix.dust }) {
-            if (stack.is(ChemicalHelper.getTag(prefix, LeisureMaterials.PROTON)) || stack.is(ChemicalHelper.getTag(prefix, LeisureMaterials.NEUTRON))) {
+        for (TagKey<Item> tag : getLeisureMaterialTags()) {
+            if (stack.is(tag)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private static List<TagKey<Item>> getLeisureMaterialTags() {
+        List<TagKey<Item>> tags = leisureMaterialTags;
+        if (tags == null) {
+            tags = new ArrayList<>(MATERIAL_PREFIXES.length * 2);
+            for (TagPrefix prefix : MATERIAL_PREFIXES) {
+                addIfPresent(tags, ChemicalHelper.getTag(prefix, LeisureMaterials.PROTON));
+                addIfPresent(tags, ChemicalHelper.getTag(prefix, LeisureMaterials.NEUTRON));
+            }
+            leisureMaterialTags = tags;
+        }
+        return tags;
+    }
+
+    private static void addIfPresent(List<TagKey<Item>> tags, TagKey<Item> tag) {
+        if (tag != null) {
+            tags.add(tag);
+        }
     }
 }

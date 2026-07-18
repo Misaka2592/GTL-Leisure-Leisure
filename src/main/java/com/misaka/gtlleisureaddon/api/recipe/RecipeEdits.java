@@ -11,12 +11,12 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +37,7 @@ public final class RecipeEdits {
         }
         for (Content content : outputs) {
             for (ItemStack stack : ItemRecipeCapability.CAP.of(content.content).getItems()) {
-                if (!stack.isEmpty() && itemId.equals(BuiltInRegistries.ITEM.getKey(stack.getItem()))) {
+                if (!stack.isEmpty() && itemId.equals(ForgeRegistries.ITEMS.getKey(stack.getItem()))) {
                     return true;
                 }
             }
@@ -64,7 +64,7 @@ public final class RecipeEdits {
         }
         for (Content content : outputs) {
             for (ItemStack stack : ItemRecipeCapability.CAP.of(content.content).getItems()) {
-                if (!stack.isEmpty() && itemId.equals(BuiltInRegistries.ITEM.getKey(stack.getItem()))) {
+                if (!stack.isEmpty() && itemId.equals(ForgeRegistries.ITEMS.getKey(stack.getItem()))) {
                     content.content = SizedIngredient.create(stack.copyWithCount(count));
                     return;
                 }
@@ -108,8 +108,8 @@ public final class RecipeEdits {
         if (stack.isEmpty()) {
             return false;
         }
-        ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        return itemId.equals(key) || itemId.getPath().equals(key.getPath());
+        ResourceLocation key = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        return key != null && (itemId.equals(key) || itemId.getPath().equals(key.getPath()));
     }
 
     private static FluidIngredient rescaleFluidIngredient(FluidIngredient ingredient, long amount) {

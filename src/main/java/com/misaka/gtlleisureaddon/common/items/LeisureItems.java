@@ -9,6 +9,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 public final class LeisureItems {
 
     public static final int NUCLEON_AGGREGATION_CATALYST_COUNT = 9;
+    @SuppressWarnings("unchecked")
     public static final ItemEntry<Item>[] NUCLEON_AGGREGATION_CATALYSTS = new ItemEntry[NUCLEON_AGGREGATION_CATALYST_COUNT];
     public static ItemEntry<Item> NUCLEON_AGGREGATION_CATALYST_PROTOTYPE;
 

@@ -12,12 +12,12 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 
 import org.gtlcore.gtlcore.common.machine.multiblock.generator.DysonSphereMachine;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -110,7 +110,7 @@ public final class DysonSphereDamageLogic {
     }
 
     private static Item getModuleItem() {
-        Item moduleItem = BuiltInRegistries.ITEM.get(DYSON_SWARM_MODULE);
+        Item moduleItem = ForgeRegistries.ITEMS.getValue(DYSON_SWARM_MODULE);
         if (moduleItem == null || moduleItem == Items.AIR) {
             return null;
         }
@@ -169,18 +169,7 @@ public final class DysonSphereDamageLogic {
 
     private static boolean isConsumableModuleStack(
                                                    NotifiableItemStackHandler handler, int slot, ItemStack stack, Item moduleItem) {
-        return !stack.isEmpty() && isModuleStack(stack, moduleItem) && handler.isItemValid(slot, stack);
-    }
-
-    private static boolean isModuleStack(ItemStack stack, Item moduleItem) {
-        if (stack.isEmpty()) {
-            return false;
-        }
-        if (stack.is(moduleItem)) {
-            return true;
-        }
-        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        return DYSON_SWARM_MODULE.equals(id);
+        return !stack.isEmpty() && stack.is(moduleItem) && handler.isItemValid(slot, stack);
     }
 
     private static long consumeModules(List<IRecipeHandler<?>> handlers, Item moduleItem, long amount) {
